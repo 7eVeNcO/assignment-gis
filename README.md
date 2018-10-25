@@ -16,17 +16,20 @@ Build a map-based application, which lets the user see geo-based data on a map a
 
 - [Open Street Maps](https://www.openstreetmap.org/)
 
-## My project: Restaurant helper
+## My project: Help me eat
 
-**Application description**: Finding restaurants on map. Showing the nerest restaurants to the point of interes. The user can choose a restaurant and find closest parking spots or bus stops. Parking spots are color-coded based on their type (private/free).
+**Application description**: Finding restaurants on map. 
+1. Showing the nearest restaurants/bars/cafes/fast-foods to the point of interest within selected distance.
+2) The user can choose a place and find n-closest parking spots.
+3) Showing Bratislava regions on the map. User can pick a region and show restaurants/bars/cafes/fast-foods in the selected region.
 
 **Data source**: 
-https://www.openstreetmap.org - Bratislava
-https://wiki.openstreetmap.org/wiki/Cs:Tag:amenity%3Drestaurant - restaurant
-https://wiki.openstreetmap.org/wiki/Tag:highway%3Dbus_stop - bus stop
-https://wiki.openstreetmap.org/wiki/Tag:amenity%3Dparking_space - parking space
+- https://www.openstreetmap.org - Bratislava
+- https://wiki.openstreetmap.org/wiki/Cs:Tag:amenity%3Drestaurant - restaurant
+- https://wiki.openstreetmap.org/wiki/Tag:amenity%3Dparking_space - parking space
+- https://wiki.openstreetmap.org/wiki/Tag:boundary=administrative - districts
 
 **Technologies used**: 
-PostGIS - https://postgis.net/
-NodeJS - https://nodejs.org/en/
-Leaflet - https://leafletjs.com/
+- PostGIS - https://postgis.net/
+- NodeJS - https://nodejs.org/en/
+- Leaflet - https://leafletjs.com/
