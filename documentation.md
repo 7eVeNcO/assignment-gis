@@ -108,4 +108,11 @@ Optimalized Query cost:
 cost=0.14..458.69
 
 **Get aggregated rating in areas:**
+Query time: 5s
 
+We created new column in administrative_polygons, where we inserted transfomed data.
+
+`UPDATE administrative_polygons
+SET way4326 = ST_Transform(way,4326)`
+
+New Query time: 1s
