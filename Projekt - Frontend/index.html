@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tomas Koren - DBMS projekt</title>
+
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin=""/>
+    <link type="text/css" rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-grid.min.css"/>
+    <link type="text/css" rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-reboot.min.css"/>
+    <script src="node_modules/leaflet/dist/leaflet.js"
+            integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+            crossorigin=""></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="leaflet-heat.js"></script>
+    <script src="my-scripts.js"></script>
+    <style>
+        .info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+        .anyClass {
+            height: 98vh;
+            width: 20vw;
+            overflow-y: scroll;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="row">
+        <div class="col-3 anyClass " style="padding-left: 30px;">
+            <h3 class="text-primary text-center">Help me eat</h3>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="restaurants" checked>
+                <label class="form-check-label" for="restaurants">Restaurants</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="bars" checked>
+                <label class="form-check-label" for="bars">Bars</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="fast-foods" checked>
+                <label class="form-check-label" for="fast-foods">Fast foods</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="cafes" checked>
+                <label class="form-check-label" for="cafes">Cafes</label>
+            </div>
+            <div class="form-group">
+                <label for="lat">Latitude:</label>
+                <input type="text" class="form-control" id="lat">
+            </div>
+            <div class="form-group">
+                <label for="long">Longtitude:</label>
+                <input type="text" class="form-control" id="long">
+            </div>
+            <div class="form-group">
+                <label for="radius">Radius (m):</label>
+                <input type="text" class="form-control" id="radius">
+            </div>
+            <div class="text-center">
+                <button id="button-r" type="button" class="btn btn-dark">Find nearest food</button>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="limit">Parking limit (number):</label>
+                <input type="text" class="form-control" id="limit">
+            </div>
+            <div class="text-center">
+            <button id="button-p" type="button" class="btn btn-dark">Find parkings</button>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="districts">Select the area:</label>
+                <select class="form-control" id="districts">
+                </select>
+            </div>
+            <div class="text-center">
+                <button id="button-rd" type="button" class="btn btn-dark">Find Zomato food in area</button>
+                <hr>
+                <button id="button-zomato" type="button" class="btn btn-dark">Show districts ratings</button>
+                <!--<hr>-->
+                <!--<button id="button-clear" type="button" class="btn btn-warning ">Clear map</button>-->
+            </div>
+        </div>
+
+        <div class="col-9">
+            <div id="mapid" style="width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+
+<script>
+
+
+</script>
+
+</body>
+</html>
+
+
+
