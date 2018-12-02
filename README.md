@@ -1,27 +1,22 @@
-# General course assignment
+# Help me eat
 
-Build a map-based application, which lets the user see geo-based data on a map and filter/search through it in a meaningfull way. Specify the details and build it in your language of choice. The application should have 3 components:
+**Application description**: Application's purpose is to help user find eating place of his choice and help him find parking spot in Bratislava, Slovakia. 
+1. Showing the nearest restaurants/bars/cafes/fast-foods to the point of interest within selected distance.
+2) The user can choose a place and find n-closest parking spots.
+3) Showing selected Bratislava region on the map. User can pick a region and show spots and it's reviews. Marker size defines rating of the spot.
+4) Showing all Bratislava regions on map, with aggregated weighted raging of spots in the area.
 
-1. Custom-styled background map, ideally built with [mapbox](http://mapbox.com). Hard-core mode: you can also serve the map tiles yourself using [mapnik](http://mapnik.org/) or similar tool.
-2. Local server with [PostGIS](http://postgis.net/) and an API layer that exposes data in a [geojson format](http://geojson.org/).
-3. The user-facing application (web, android, ios, your choice..) which calls the API and lets the user see and navigate in the map and shows the geodata. You can (and should) use existing components, such as the Mapbox SDK, or [Leaflet](http://leafletjs.com/).
+![Screenshot](Screenshot_1.png)
+![Screenshot](Screenshot_2.png)
+![Screenshot](Screenshot_3.png)
+![Screenshot](Screenshot_4.png)
+![Screenshot](Screenshot_5.png)
 
-## Example projects
-
-- Showing nearby landmarks as colored circles, each type of landmark has different circle color and the more interesting the landmark is, the bigger the circle. Landmarks are sorted in a sidebar by distance to the user. It is possible to filter only certain landmark types (e.g., castles).
-
-- Showing bicykle roads on a map. The roads are color-coded based on the road difficulty. The user can see various lists which help her choose an appropriate road, e.g. roads that cross a river, roads that are nearby lakes, roads that pass through multiple countries, etc.
 
 ## Data sources
 
 - [Open Street Maps](https://www.openstreetmap.org/)
-
-## My project: Help me eat
-
-**Application description**: Finding restaurants on map. 
-1. Showing the nearest restaurants/bars/cafes/fast-foods to the point of interest within selected distance.
-2) The user can choose a place and find n-closest parking spots.
-3) Showing Bratislava regions on the map. User can pick a region and show restaurants/bars/cafes/fast-foods in the selected region.
+- [Zomato] (https://www.zomato.com/sk/bratislava)
 
 **Data source**: 
 - https://www.openstreetmap.org - Bratislava
