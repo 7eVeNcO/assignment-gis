@@ -35,8 +35,9 @@ Then we created parser to parse informations from parsed fiels to Postgres. Adva
 - ratings count
 - restaurant cuisines
 
+Sources:
 - [Open Street Maps](https://www.openstreetmap.org/)
-- [Zomato] (https://www.zomato.com/sk/bratislava)
+- [Zomato] (https://www.zomato.com/sk/bratislava/)
 
 ### Api
 
@@ -44,7 +45,6 @@ Then we created parser to parse informations from parsed fiels to Postgres. Adva
 
 `GET /api/near-restaurants?lat=48.16099967327614&lng=17.06609138815438&radius=1000&types=restaurant,bar,fast_foods,cafe`
 
-In body part of request is the information about XXX
 **Get nearest parkings to osm_id of restaurant**
 `GET /api/near-parking-spots?id=1930190573&limit=3`
 
@@ -66,3 +66,41 @@ In body part of request is the information about XXX
 - Leaflet - https://leafletjs.com/
 
 ### Database optimalisations
+**Query: Get nearest restaurats:**
+Query cost: 13432.38
+
+We created separated table for eating spots: spots_polygons.
+`CREATE TABLE spots_polygons
+  AS (
+	  SELECT osm_id, way, name, amenity FROM planet_osm_polygon
+	  WHERE (amenity = 'restaurant' OR amenity = 'bar' OR amenity = 'cafe' OR amenity = 'fast_food') and name!=''
+  );`
+  
+Optimalized Query cost: 525.96
+  
+**Query: Get nearest parking spots:**
+Query cost: 3199.43..8929.73
+
+We created separated table for parking spots: 
+`CREATE TABLE parkings_polygons
+AS (SELECT osm_id,name,way FROM planet_osm_polygon
+WHERE amenity like 'parking');`
+
+Optimalized Query cost: 624.69..6236.32
+
+**Query: Eating spots in area:**
+Query cost: 0.29..458.84
+
+We created separated table for administrative_polygons:
+`CREATE TABLE administrative_polygons
+AS (SELECT name, way, admin_level FROM planet_osm_polygon 
+WHERE boundary like 'administrative');`
+
+We created index on name of area.
+`CREATE INDEX ON administrative_polygons(name)`
+
+Optimalized Query cost:
+cost=0.14..458.69
+
+**Get aggregated rating in areas:**
+
