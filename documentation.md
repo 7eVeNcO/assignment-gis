@@ -147,9 +147,9 @@ WHERE osm_id IN (SELECT osm_id
 FROM closest OFFSET 1))
 ) as querina`
 
-![Screenshot1](Query2 -1.png)
+![Screenshot1](Query2-1.png)
 
-![Screenshot2](Query2 - 2.png)
+![Screenshot2](Query2-2.png)
 
 **Query3: Eating spots in area:**
 Query cost: 0.29..458.84
