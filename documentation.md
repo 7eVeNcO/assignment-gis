@@ -148,6 +148,7 @@ FROM closest OFFSET 1))
 ) as querina`
 
 ![Screenshot1](Query2 -1.png)
+
 ![Screenshot2](Query2 - 2.png)
 
 **Query3: Eating spots in area:**
