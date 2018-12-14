@@ -102,7 +102,7 @@ Optimalized Query cost: 525.96
 				
 ![Screenshot](Query1.png)			
   
-**Query: Get nearest parking spots:**
+**Query2: Get nearest parking spots:**
 Query cost: 3199.43..8929.73
 
 We created separated table for parking spots: 
@@ -147,10 +147,10 @@ WHERE osm_id IN (SELECT osm_id
 FROM closest OFFSET 1))
 ) as querina`
 
-![Screenshot](Query2 - 1.png)
-![Screenshot](Query2 - 2.png)
+![Screenshot1](Query2 -1.png)
+![Screenshot2](Query2 - 2.png)
 
-**Query: Eating spots in area:**
+**Query3: Eating spots in area:**
 Query cost: 0.29..458.84
 
 We created separated table for administrative_polygons:
@@ -178,7 +178,7 @@ WHERE intersects=true and districts.name is not null`
 
 ![Screenshot](Query3.png)
 
-**Get aggregated rating in areas:**
+**Query 4: Get aggregated rating in areas:**
 Query time: 5s
 
 We created new column in administrative_polygons, where we inserted transfomed data.
