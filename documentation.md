@@ -67,7 +67,7 @@ Sources:
 - Leaflet - https://leafletjs.com/
 
 ### Database optimalisations
-**Query: Get nearest restaurats:**
+**Query1: Get nearest restaurats:**
 Query cost: 13432.38
 
 We created separated table for eating spots: spots_polygons.
@@ -79,6 +79,28 @@ We created separated table for eating spots: spots_polygons.
   );`
   
 Optimalized Query cost: 525.96
+
+`with places as (select name, 
+			   	st_distance(ST_GeographyFromText('SRID=4326;POINT(17.065029 48.162765)'), 								ST_Transform(way,4326)::geography),
+			   	ST_x(ST_Transform(way,4326)) as x,
+			   	ST_y(ST_Transform(way,4326)) as y
+				from spots_points
+				where st_distance(
+				ST_GeographyFromText('SRID=4326;POINT(17.065029 48.162765)'),
+				ST_Transform(way,4326)::geography)<5000
+				union all
+				select name, 
+				st_distance(ST_GeographyFromText('SRID=4326;POINT(17.065029 						48.162765)'),ST_Transform(way,4326)::geography), 
+				ST_x(ST_Transform(ST_Centroid(way),4326)) as x,
+				ST_y(ST_Transform(ST_Centroid(way),4326)) as y
+				from spots_polygons
+				where st_distance(
+				ST_GeographyFromText('SRID=4326;POINT(17.065029 48.162765)'),
+				ST_Transform(way,4326)::geography)<5000
+					)
+				select * from places ORDER by st_distance`
+				
+![Screenshot](Query1.png)			
   
 **Query: Get nearest parking spots:**
 Query cost: 3199.43..8929.73
@@ -90,6 +112,43 @@ AS (SELECT osm_id,name,way FROM planet_osm_polygon
 WHERE amenity like 'parking');`
 
 Optimalized Query cost: 624.69..6236.32
+
+`WITH restaurants AS
+(
+SELECT osm_id, name, way FROM spots_points WHERE osm_id IN (1930190573)
+UNION ALL
+SELECT osm_id, name, way FROM spots_polygons WHERE osm_id IN (1930190573)
+),
+parkings AS
+(
+SELECT osm_id,name,way FROM parkings_polygons
+),
+distances AS
+(
+SELECT p.osm_id, ST_DISTANCE(ST_Transform(r.way,26986),ST_Transform(p.way,26986)) FROM restaurants r, parkings p
+),
+closest AS
+(
+SELECT osm_id, SUM(st_distance) from distances
+GROUP BY osm_id
+ORDER BY SUM(st_distance) ASC
+LIMIT 1
+)									 
+SELECT osm_id, ST_AsGeoJSON(ST_Transform(way, 4326))						 
+FROM ((SELECT osm_id,way, name 
+FROM parkings
+WHERE osm_id IN 
+(SELECT osm_id 
+from closest LIMIT 5))
+UNION ALL
+(SELECT osm_id,way, name 
+FROM parkings
+WHERE osm_id IN (SELECT osm_id 
+FROM closest OFFSET 1))
+) as querina`
+
+![Screenshot](Query2 - 1.png)
+![Screenshot](Query2 - 2.png)
 
 **Query: Eating spots in area:**
 Query cost: 0.29..458.84
@@ -107,6 +166,18 @@ We created index on name of area.
 Optimalized Query cost:
 cost=0.14..458.69
 
+`SELECT name, x, y, rating_avg, rating_count, amenity
+FROM
+(
+SELECT st_intersects(ST_Transform(poly.way,4326), restaurants.path) AS intersects, restaurants.name, restaurants.amenity, ST_x(ST_Transform(restaurants.path,4326)) as x, ST_y(ST_Transform(restaurants.path,4326)) as y, rating_avg, rating_count
+FROM administrative_polygons as poly
+CROSS JOIN restaurants
+WHERE poly.name LIKE 'Karlova Ves'
+) as districts
+WHERE intersects=true and districts.name is not null`
+
+![Screenshot](Query3.png)
+
 **Get aggregated rating in areas:**
 Query time: 5s
 
@@ -116,3 +187,16 @@ We created new column in administrative_polygons, where we inserted transfomed d
 SET way4326 = ST_Transform(way,4326)`
 
 New Query time: 1s
+
+`SELECT district, st_asgeojson, sum(rating_avg * rating_count) / (sum(rating_count)+1) as rating_average
+FROM
+(
+SELECT st_intersects(ST_Transform(poly.way,4326), restaurants.path) AS intersects, poly.name as district, restaurants.name, rating_avg, rating_count, ST_AsGeoJSON(ST_Transform(way, 4326)) AS st_asgeojson
+FROM administrative_polygons as poly
+CROSS JOIN restaurants
+WHERE poly.admin_level LIKE '10'
+) as districts
+WHERE intersects=true and districts.name is not null
+GROUP BY district, st_asgeojson`
+
+![Screenshot](Query4.png)
